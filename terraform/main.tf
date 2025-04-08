@@ -2,10 +2,10 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_key_pair" "deployer" {
-  key_name   = "maha-key"
-  public_key = file("~/.ssh/id_rsa.pub")
-}
+# resource "aws_key_pair" "deployer" {
+#   key_name   = "maha-key"
+#   public_key = file("~/.ssh/id_rsa.pub")
+# }
 
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
@@ -67,7 +67,7 @@ resource "aws_instance" "web" {
   instance_type               = "t2.micro"
   subnet_id                   = aws_subnet.main.id
   vpc_security_group_ids      = [aws_security_group.web_sg.id]
-  key_name                    = aws_key_pair.deployer.key_name
+  # key_name                    = aws_key_pair.deployer.key_name
   associate_public_ip_address = true
   user_data                   = file("${path.module}/ec2-user-data.sh")
 
