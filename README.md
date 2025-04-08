@@ -8,8 +8,8 @@ This project demonstrates an automated infrastructure deployment of a simple Nod
 - ☁️ **Cloud Provider**: AWS
 - 🐳 **Application**: Dockerized Node.js app
 - 🚢 **CI/CD**: GitHub Actions
-- 🌍 **Deployment Target**: EC2 instance 
-
+- 🌍 **Deployment Target**: EC2 instance
+- 📊 **Monitoring**: Integrated with Datadog (agent installed on EC2)
 ---
 
 ## 📁 Project Structure
@@ -21,9 +21,11 @@ This project demonstrates an automated infrastructure deployment of a simple Nod
 │   └── index.js                  # Entry point of the Node.js app
 │
 ├── terraform/                    # Terraform IaC configuration
-│   ├── main.tf                   # Main infrastructure definition
-│   ├── variables.tf              # Input variables
-│   └── outputs.tf                # Output values after apply
+│   ├── main.tf                   # Main infra file using modules like EC2, VPC, etc.
+│   ├── variables.tf              # Input variables for infrastructure
+│   ├── outputs.tf                # Output values after apply
+│   └── create-s3-state/          # Module to create S3 + DynamoDB backend
+│       └── main.tf               # Creates S3 bucket & DynamoDB for remote backend
 │
 ├── .github/
 │   └── workflows/
@@ -66,7 +68,7 @@ This project demonstrates an automated infrastructure deployment of a simple Nod
 
 ---
 
-## Local deployment
+## Local deployment application
 
 ### Requirements
 
@@ -79,7 +81,7 @@ This project demonstrates an automated infrastructure deployment of a simple Nod
  npm install
 ```
 
-### Runing Application
+### Run Application
 
 ```bash
 # Option1 - core nodejs
@@ -91,7 +93,7 @@ npm run start
 docker-compose up -d
 ```
 
-### Accessing application
+### Access application
 
 ```bash
 	http://localhost:3000 # returns 'hello world' message
@@ -99,14 +101,22 @@ docker-compose up -d
 
 ---
 
-### Try with Terraform 
+### Terraform 
 
-Basically this terraform code will create ec2 machine (t2.micro)
+1. Create s3 and dynomodb table [Only once - for state locking]
+
+```bash
+cd terraform/create-s3-state
+terraform init
+terraform plan
+terraform apply
+```
+
+2. Create ec2 instance and deploy the image using docker registry
 
 ```bash
 cd terraform/
 terraform init
 terraform plan
 terraform apply
-
-
+```
