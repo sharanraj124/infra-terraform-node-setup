@@ -1,0 +1,40 @@
+name: Deploy to EC2 via Terraform
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Build and Push Docker Image to Docker Hub
+        env:
+          DOCKER_IMAGE: omrsaran/hello-node
+        run: |
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+          docker build -t $DOCKER_IMAGE:latest ./app
+          docker push $DOCKER_IMAGE:latest
+
+      # - name: Build and Push Docker Image (Optional)
+      #   run: |
+      #     docker build -t omrsaran/hello-node ./app
+      #     docker tag omrsaran/hello-node:latest <your_ecr_uri>:latest
+      #     docker push <your_ecr_uri>:latest
+
+      - name: Terraform Init & Apply
+        run: |
+          cd terraform
+          terraform init
+          terraform apply -auto-approve
