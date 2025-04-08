@@ -66,9 +66,42 @@ This project demonstrates an automated infrastructure deployment of a simple Nod
 
 ---
 
-## 🚀 Deployment
+## Local deployment
 
-### Local
+### Requirements
+
+- Node.js version - v20.19.0
+
+### Installation
+
+```bash
+ cd app
+ npm install
+```
+
+### Runing Application
+
+```bash
+# Option1 - core nodejs
+
+npm run start
+
+# Option2 - docker compose
+
+docker-compose up -d
+```
+
+### Accessing application
+
+```bash
+	http://localhost:3000 # returns 'hello world' message
+```
+
+---
+
+### Try with Terraform 
+
+Basically this terraform code will create ec2 machine (t2.micro)
 
 ```bash
 cd terraform/
