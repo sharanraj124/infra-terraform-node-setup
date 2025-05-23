@@ -12,9 +12,9 @@ pipeline {
         sh 'node --version'
       }
     }
-    stage('Build') {
+    stage('Build Docker Image') {
       steps {
-        docker build app/
+        docker build -f app/Dockerfile
       }
     }
   }
