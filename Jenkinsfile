@@ -23,7 +23,6 @@ pipeline {
       steps {
           script {
               def image = docker.build("omrsaran/jen-sample:${env.BUILD_NUM}", '-f app/Dockerfile .')
-              echo "Built Docker image: ${image.imageName}"
               docker.withRegistry('https://index.docker.io/v1/', 'docker-cred') {
                   image.push()
               }
