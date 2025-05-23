@@ -1,5 +1,9 @@
 pipeline {
   agent any
+  environment {
+      def shortSha = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+      IMAGE_TAG = "${BUILD_NUMBER}-${shortSha}"
+  }
 //   agent {
 //     docker { image 'node:16-alpine' }
 //   }
@@ -19,7 +23,7 @@ pipeline {
     stage('Build Docker Image') {
       steps {
           script {
-              def image = docker.build('omrsaran/jen-sample', '-f app/Dockerfile .')
+              def image = docker.build('omrsaran/jen-sample:${IMAGE_TAG}', '-f app/Dockerfile .')
 
               docker.withRegistry('https://index.docker.io/v1/', 'docker-cred') {
                   image.push()
