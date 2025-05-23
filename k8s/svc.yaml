@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: sample-node-deploy
+  name: sample-node-svc
+  namespace: sample-node
+spec:
+  ports:
+  - port: 3000
+    protocol: TCP
+    targetPort: 3000
+    nodePort: 31000
+  selector:
+    app: sample-node-deploy
+  type: NodePort
+status:
+  loadBalancer: {}

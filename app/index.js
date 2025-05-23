@@ -11,7 +11,7 @@ app.get("/health", (req, res) => {
 	res.status(200).send("helath ok")
 })
 
-app.listen(port, (req, res) => {
+app.listen('0.0.0.0', port, (req, res) => {
 	console.log(`listing port http://localhost:${port}`);
 })
 

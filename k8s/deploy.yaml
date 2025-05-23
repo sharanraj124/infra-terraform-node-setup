@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: sample-node-deploy
+  name: sample-node-deploy
+  namespace: sample-node
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sample-node-deploy
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: sample-node-deploy
+    spec:
+      containers:
+      - image: omrsaran/jen-sample:latest
+        name: jen-sample
+        resources: {}
+status: {}
