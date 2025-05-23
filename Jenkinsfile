@@ -19,11 +19,19 @@ pipeline {
           )
       }
     }
+    stage('Prepare Image Tag') {
+        steps {
+            script {
+                def shortSha = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+                env.IMAGE_TAG = "${env.BUILD_NUM}-${shortSha}"
+            }
+        }
+    }
     stage('Build Docker Image') {
       steps {
           script {
-              def image = docker.build("omrsaran/jen-sample:${env.BUILD_NUM}", '-f app/Dockerfile .')
-
+              def image = docker.build("omrsaran/jen-sample:${env.IMAGE_TAG}", '-f app/Dockerfile .')
+              echo "Built Docker image: ${image.imageName}"
               docker.withRegistry('https://index.docker.io/v1/', 'docker-cred') {
                   image.push()
               }
@@ -43,5 +51,16 @@ pipeline {
     //     }
     //   }
     // }
+  }
+  post {
+      success {
+          echo '✅ Tests passed!'
+      }
+      failure {
+          echo '❌ Tests failed!'
+      }
+      always {
+          echo '🧹 Cleanup tasks'
+      }
   }
 }
