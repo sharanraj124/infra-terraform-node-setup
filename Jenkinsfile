@@ -19,7 +19,7 @@ pipeline {
     stage('Build Docker Image') {
       steps {
           script {
-              def image = docker.build('omrsaran/jen-sample')
+              def image = docker.build('omrsaran/jen-sample', '-f app/Dockerfile .')
 
               docker.withRegistry('https://index.docker.io/v1/', 'docker-cred') {
                   image.push()
