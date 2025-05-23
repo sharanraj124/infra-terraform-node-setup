@@ -4,26 +4,43 @@ pipeline {
 //     docker { image 'node:16-alpine' }
 //   }
   stages {
-    stage('Test') {
-      agent {
-        docker { image 'node:16-alpine' }
-      }
+    stage('Checkout repository') {
+      // agent {
+      //   docker { image 'node:16-alpine' }
+      // }
       steps {
-        sh 'node --version'
+          git(
+            credentialsId: 'd4931fb9-9b04-4e6a-8a10-be214bd966b8', 
+            url: 'https://github.com/sharanraj124/infra-terraform-node-setup.git',
+            branch: 'main'
+          )
       }
     }
-    stage('Build Docker Image') {
+    // stage('Build Docker Image') {
+    // //   steps {
+    // //     docker build -f app/Dockerfile .
+    // //   }
     //   steps {
-    //     docker build -f app/Dockerfile .
+    //     script {
+    //         docker.build(
+    //             'omrsaran/jen-sample',
+    //             '-f app/Dockerfile .'
+    //         )
+    //     }
     //   }
-      steps {
-        script {
-            docker.build(
-                'omrsaran/jen-sample',
-                '-f app/Dockerfile .'
-            )
+    // }
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    def image = docker.build('omrsaran/jen-sample')
+
+                    docker.withRegistry('https://index.docker.io/v1/', 'docker-cred') {
+                        image.push()
+                    }
+                }
+            }
         }
-      }
     }
   }
 }
