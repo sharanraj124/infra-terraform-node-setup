@@ -13,8 +13,16 @@ pipeline {
       }
     }
     stage('Build Docker Image') {
+    //   steps {
+    //     docker build -f app/Dockerfile .
+    //   }
       steps {
-        docker build -f app/Dockerfile .
+        script {
+            docker.build(
+                'omrsaran/jen-sample',
+                '-f app/Dockerfile .'
+            )
+        }
       }
     }
   }
