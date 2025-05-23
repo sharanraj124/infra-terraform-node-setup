@@ -16,6 +16,17 @@ pipeline {
           )
       }
     }
+    stage('Build Docker Image') {
+      steps {
+          script {
+              def image = docker.build('omrsaran/jen-sample')
+
+              docker.withRegistry('https://index.docker.io/v1/', 'docker-cred') {
+                  image.push()
+              }
+          }
+      }
+    }
     // stage('Build Docker Image') {
     // //   steps {
     // //     docker build -f app/Dockerfile .
@@ -29,18 +40,5 @@ pipeline {
     //     }
     //   }
     // }
-    stages {
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    def image = docker.build('omrsaran/jen-sample')
-
-                    docker.withRegistry('https://index.docker.io/v1/', 'docker-cred') {
-                        image.push()
-                    }
-                }
-            }
-        }
-    }
   }
 }
