@@ -30,9 +30,9 @@ pipeline {
               echo "Username is $GIT_USERNAME"
               # DON'T echo the password! Avoid leaking secrets
                 echo '🔍 Before replacement:'
-                cat deploy.yaml
+                cat k8s/deploy.yaml
                 echo "🔧 Replacing 32 with build number: ${env.BUILD_NUM}"
-                sed -i '' "s/32/${env.BUILD_NUM}/g" deploy.yaml
+                sed -i '' "s/32/${env.BUILD_NUM}/g" k8s/deploy.yaml
                 echo '✅ After replacement:'
                 cat deploy.yaml
             '''
