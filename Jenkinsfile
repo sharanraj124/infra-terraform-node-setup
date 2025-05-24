@@ -31,6 +31,11 @@ pipeline {
     }
     stage('Update Image version in k8s deployment file') {
       steps {
+        git(
+          credentialsId: 'd4931fb9-9b04-4e6a-8a10-be214bd966b8', 
+          url: 'https://github.com/sharanraj124/infra-terraform-node-setup.git',
+          branch: 'main'
+        )
         script {
             withCredentials([
                 usernamePassword(
