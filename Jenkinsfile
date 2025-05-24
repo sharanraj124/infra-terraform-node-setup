@@ -40,23 +40,23 @@ pipeline {
                 )
             ]) {
                 sh """
-                    echo '🔍 Before replacement:'
-                    cat deploy.yaml
+                echo '🔍 Before replacement:'
+                cat deploy.yaml
 
-                    echo '🔧 Replacing 32 with build number: ${env.BUILD_NUM}'
-                    sed -i '' "s/32/${env.BUILD_NUM}/g" deploy.yaml
+                echo '🔧 Replacing 32 with build number: ${env.BUILD_NUM}'
+                sed -i '' "s/32/${env.BUILD_NUM}/g" deploy.yaml
 
-                    echo '✅ After replacement:'
-                    cat deploy.yaml
+                echo '✅ After replacement:'
+                cat deploy.yaml
 
-                    git config user.name "jenkins-bot"
-                    git config user.email "jenkins@example.com"
+                git config user.name "jenkins-bot"
+                git config user.email "jenkins@example.com"
 
-                    git add deploy.yaml
-                    git commit -m '🔁 Updated deploy.yaml with build number ${env.BUILD_NUM}'
+                git add deploy.yaml
+                git commit -m '🔁 Updated deploy.yaml with build number ${env.BUILD_NUM}'
 
-                    git remote set-url origin https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/sharanraj124/infra-terraform-node-setup.git
-                    git push origin HEAD:main
+                git remote set-url origin https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/sharanraj124/infra-terraform-node-setup.git
+                git push origin HEAD:main
                 """
             }
         }
