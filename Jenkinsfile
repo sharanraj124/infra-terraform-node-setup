@@ -20,15 +20,17 @@ pipeline {
       }
     }
     stage('Check credentials') {
-      withCredentials([usernamePassword(
-        credentialsId: 'd4931fb9-9b04-4e6a-8a10-be214bd966b8',
-        usernameVariable: 'GIT_USERNAME',
-        passwordVariable: 'GIT_PASSWORD'
-      )]) {
-        sh '''
-          echo "Username is $GIT_USERNAME"
-          # DON'T echo the password! Avoid leaking secrets
-        '''
+      steps {
+          withCredentials([usernamePassword(
+            credentialsId: 'd4931fb9-9b04-4e6a-8a10-be214bd966b8',
+            usernameVariable: 'GIT_USERNAME',
+            passwordVariable: 'GIT_PASSWORD'
+          )]) {
+            sh '''
+              echo "Username is $GIT_USERNAME"
+              # DON'T echo the password! Avoid leaking secrets
+            '''
+          }
       }
     }
 
