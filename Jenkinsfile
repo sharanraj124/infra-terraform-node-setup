@@ -60,7 +60,7 @@ pipeline {
                 git add deploy.yaml
                 git commit -m '🔁 Updated deploy.yaml with build number ${env.BUILD_NUM}'
 
-                git remote set-url origin https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/sharanraj124/infra-terraform-node-setup.git
+                git remote set-url origin https://$GIT_USERNAME:$GIT_PASSWORD@github.com/your/repo.git
                 git push origin HEAD:main
                 """
             }
