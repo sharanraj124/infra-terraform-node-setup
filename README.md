@@ -57,7 +57,7 @@ This project demonstrates an automated infrastructure deployment of a simple Nod
   - `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `DOCKER_USERNAME`  and `DOCKER_PASSWORD` stored in **GitHub Secrets**
 ---
 
-## 🔐 GitHub Secrets
+## 🔐 GitHub Secret
 
 | Key                 | Description                          |
 |---------------------|--------------------------------------|
