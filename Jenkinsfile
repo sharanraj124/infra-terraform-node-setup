@@ -57,23 +57,23 @@ pipeline {
           }
       }
     }
-    stage('Deploy to Minikube') {
-      steps {
-        script {
-          echo '🚀 Deploying to Minikube...'
+    // stage('Deploy to Minikube') {
+    //   steps {
+    //     script {
+    //       echo '🚀 Deploying to Minikube...'
 
-          // Show kubectl config for debug
-          sh 'kubectl config current-context'
+    //       // Show kubectl config for debug
+    //       sh 'kubectl config current-context'
 
-          // Apply the updated Kubernetes manifest
-          sh 'kubectl apply -f k8s/deploy.yaml'
-          sh 'kubectl get pods -A'
+    //       // Apply the updated Kubernetes manifest
+    //       sh 'kubectl apply -f k8s/deploy.yaml'
+    //       sh 'kubectl get pods -A'
 
-          // Optional: check rollout status
-          // sh 'kubectl rollout status deployment/your-deployment-name -n your-namespace'
-        }
-      }
-    }
+    //       // Optional: check rollout status
+    //       // sh 'kubectl rollout status deployment/your-deployment-name -n your-namespace'
+    //     }
+    //   }
+    // }
     // stage('Build Docker Image') {
     // //   steps {
     // //     docker build -f app/Dockerfile .
